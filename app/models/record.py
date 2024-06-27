@@ -1,11 +1,14 @@
-from pydantic import BaseModel
+from sqlalchemy import Column, Integer, DateTime, String, Float
+
+from app.db.base_class import Base
 
 
-class Stats(BaseModel):
-    date: str
-    successful_requests: int
-    failed_requests: int
-    uptime: float
-    average_latency: float
-    median_latency: float
-    p99_latency: float
+class Records(Base):
+    __tablename__ = "records"
+
+    id = Column(Integer, primary_key=True, index=True)
+    timestamp = Column(DateTime, index=True)
+    customer_id = Column(String, index=True)
+    request_path = Column(String)
+    status_code = Column(Integer)
+    duration = Column(Float)

@@ -4,7 +4,10 @@ WORKDIR /app
 
 COPY . /app
 
-# Install dependencies following best practices
+# Set execute permissions for entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Health Check
