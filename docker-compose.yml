@@ -5,10 +5,10 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 8000:8000
+      - "8000:8000"
     volumes:
       - type: bind
-        source: .
-        target: /app
+        source: ./app/processor/api_requests.db
+        target: /app/app/processor/api_requests.db
     env_file:
       - .env

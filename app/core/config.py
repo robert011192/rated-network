@@ -5,8 +5,9 @@ class Settings(BaseSettings):
     """
     The settings used in the application.
     """
+    PROJECT_NAME: str = "Rated Log Parser"
     # DB
-    DATABASE: str = "api_requests.db"
+    DATABASE: str = "/app/app/processor/api_requests.db"
 
     def sql_alchemy_uri(self) -> str:
         """URI to database"""
