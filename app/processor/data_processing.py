@@ -37,7 +37,6 @@ def setup_database():
         return False
 
 
-# Parse log file and insert data into database
 # Parse log file and insert data into database in batches
 def process_log_file(file_path: str, batch_size: int = BATCH_SIZE) -> bool:
     """
@@ -126,4 +125,4 @@ if __name__ == "__main__":
     start_time = time.time()
     main()
     end_time = time.time()
-    print("execution time", start_time - end_time)
+    logger.info(f"Execution time: {end_time - start_time} seconds")
