@@ -1,6 +1,13 @@
 # Test your FastAPI endpoints
 
+# Calculation for a user
 GET http://127.0.0.1:8000/customers/cust_1/stats?from=2023-01-01
+Accept: application/json
+
+###
+
+# Customer not found
+GET http://127.0.0.1:8000/customers/cust_19999/stats?from=2023-01-01
 Accept: application/json
 
 ###
