@@ -100,6 +100,11 @@ class RecordsService:
         stats = []
         for row in results:
             durations = list(map(float, row.durations.split(",")))
+            if len(durations) < 2:
+                p99_latency = None
+            else:
+                p99_latency = statistics.quantiles(durations, n=100)[98]
+
             stats.append(
                 {
                     "date": row.date,
@@ -110,7 +115,7 @@ class RecordsService:
                     ),
                     "average_latency": row.average_latency,
                     "median_latency": statistics.median(durations),
-                    "p99_latency": statistics.quantiles(durations, n=100)[98],
+                    "p99_latency": p99_latency,
                 }
             )
         return stats
