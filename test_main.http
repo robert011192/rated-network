@@ -6,6 +6,12 @@ Accept: application/json
 
 ###
 
+# Invalid data for customer
+GET http://127.0.0.1:8000/customers/cust_10/stats?from=2023-01-01
+Accept: application/json
+
+###
+
 # Customer not found
 GET http://127.0.0.1:8000/customers/cust_19999/stats?from=2023-01-01
 Accept: application/json
@@ -13,7 +19,7 @@ Accept: application/json
 ###
 
 # Invalid data format
-GET http://127.0.0.1:8000/customers/cust_19999/stats?from=2023
+GET http://127.0.0.1:8000/customers/cust_1/stats?from=2023
 Accept: application/json
 
 ###

@@ -38,7 +38,16 @@ def get_customer_stats(
         List[dict]: List of daily statistics.
     """
     try:
-        from_date_obj = datetime.strptime(from_, "%Y-%m-%d")
+        # Parse the date
+        try:
+            from_date_obj = datetime.strptime(from_, "%Y-%m-%d")
+        except ValueError:
+            logger.error(f"Invalid date format received: {from_}")
+            return JSONResponse(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                content={"message": "Invalid date format. Use YYYY-MM-DD."},
+            )
+
         records_service = RecordsService(session)
 
         # Check if the customer exists
@@ -48,22 +57,24 @@ def get_customer_stats(
                 content={"message": "Customer not found."},
             )
 
-        stats = records_service.get_customer_stats(id, from_date_obj)
-        if not stats:
+        # Get customer stats
+        try:
+            stats = records_service.get_customer_stats(id, from_date_obj)
+            if not stats:
+                return JSONResponse(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    content={
+                        "message": "No records found for the given customer and date range."
+                    },
+                )
+            return stats
+        except ValueError as ve:
+            logger.error(f"Data processing error for customer {id} from {from_} - {ve}")
             return JSONResponse(
-                status_code=status.HTTP_404_NOT_FOUND,
-                content={
-                    "message": "No records found for the given customer and date range."
-                },
+                status_code=status.HTTP_400_BAD_REQUEST,
+                content={"message": "Data processing error. Ensure valid data."},
             )
-        return stats
 
-    except ValueError:
-        logger.error(f"Invalid date format received: {from_}")
-        return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content={"message": "Invalid date format. Use YYYY-MM-DD."},
-        )
     except Exception as e:
         logger.error(f"An error occurred while retrieving customer stats: {e}")
         return JSONResponse(
